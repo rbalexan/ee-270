@@ -1,0 +1,185 @@
+% major update 8/4/11
+% typo fixes 12/5/11
+% --------------------------------------------------------------------------
+%\documentclass[onecolumn,11pt]{ieeetran}
+\input{ee270.tex}
+
+% \documentclass[draft]{siamltex}
+% \usepackage{graphics,stfloats,amssymb,amsmath,amsfonts,epsfig}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+ \usepackage{hyperref}
+%\usepackage[named]{algo}
+
+% Example definitions
+% -------------------
+\def\x{{\mathbf x}}
+\def\L{{\cal L}}
+\def\half{\frac{1}{2}}
+\def\alphamax{\alpha_{\mbox{\tiny max}}}
+\def\alphamin{\alpha_{\mbox{\tiny min}}}
+
+\def\TVname{}
+
+\def\alg{\mathcal{A}}
+\def\R{\mathbb{R}}
+\def\x{\mathbf{x}}
+\def\y{\mathbf{y}}
+\def\z{\mathbf{z}}
+\def\p{\mathbf{p}}
+\def\EE{\mathbb{E}}
+\def\PP{\mathbb{P}}
+% \newcommand{\solution}[1]{
+% \iftoggle{solution}{
+% \vspace{1pc}   
+% \textcolor{blue}{\textbf{SOLUTION:}}\\ #1   
+% }{}
+% }
+
+\newtoggle{solution}
+% \togglefalse{solution} %uncomment to hide solutions
+\toggletrue{solution} %uncomment to show solutions
+
+% theorem environments
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}[theorem]{Corollary}
+
+% baselinestretch definition is important!!
+% \renewcommand{\baselinestretch}{1.565}
+
+\begin{document}
+%\ninept
+
+\HomeworkHeader{1}{Friday, January 29, 23:59pm}
+
+% \NameSunet
+
+\begin{itemize}
+
+\item After a genuine attempt to solve the homework problems by yourself, you are free to collaborate with your fellow students to find solutions to the homework problems. Regardless of whether you collaborate with other students, you are required to type up or write your own solutions. Copying homework solutions from another student or from existing solutions is a serious violation of the honor code. Please take advantage of  the professor's and TA's office hours. We are here to help you learn, and it never hurts to ask!
+% \vspace{2mm}
+\item {\bf  The assignments should be submitted via Gradescope including your code attached as pdf}
+\end{itemize}
+
+
+\begin{enumerate}
+    \item \textbf{Linear Algebra  (15 pts)}\\\\
+        Are the following statements {\bf true} or {\bf false}? If true, prove it; if false, show a counterexample.
+        \begin{enumerate}
+        \item The inverse of a symmetric matrix is itself symmetric.
+        
+        \item All $2 \times 2$ orthogonal matrices have the following form\\\\
+	    $\left[ \begin{array}{cc}
+	    \cos \theta & -\sin\theta \\ \sin \theta & \cos \theta
+	    \end{array} \right]$ or 
+	    	    $\left[ \begin{array}{cc}
+	    \cos \theta & \sin\theta \\ \sin \theta & -\cos \theta
+	    \end{array} \right]$. 
+	    \item Let $A=\left[\begin{array}{ccc} -8 &-1 &-6\\ -3& -5& -7\\ -4 & -9 & -2  \end{array}\right]$. $A$ can be written as $A=CC^T$ for some matrix $C$.
+        \end{enumerate}
+\solution{   
+    
+       
+    }  
+    
+    
+     \item \textbf{Divide and Conquer Matrix Multiplication  (15 pts)}\\\\
+    If $A$ is a matrix, then $A^2=AA$ is the square of $A$.
+    \begin{enumerate}
+        \item  Show that five multiplications are sufficient to compute the square of a $2 \times 2$ matrix $A=\left[ \begin{array}{cc}
+	    a_1 & a_2 \\ a_3 & a_4
+	    \end{array} \right]$, where $a_1,a_2,a_3,a_4$ are scalars. 
+        \item Generalize the formula in part (a) to a $2\times 2$ block matrix $A=\left[ \begin{array}{cc}
+	    A_1 & A_2 \\ A_3 & A_4
+	    \end{array} \right]$ where $A_1,A_2,A_3,A_4$ are arbitrary matrices. 
+	    \item Instead of using the classical matrix multiplication (three-loop) algorithm for computing $A^2$, we may apply the block formula you derived in (b) to reduce $2n\times 2n$ problems to several $n\times n$ computations, which can be tackled with classical matrix multiplication. Compare the total number of arithmetic operations. Generate $2n\times 2n$ random $A$ matrices and plot the wall-clock time of the classical matrix multiplication algorithm and the algorithm using the formula in (b) to compute $A^2$ for $n=4,...,10000$ (or as large as your system memory allows). You can use standard packages for matrix multiplication, e.g.,  numpy.matmul.
+        \item Show that if you have an algorithm for squaring an $n \times n$ matrix in $O(n^c)$ time, then you can use it to multiply any two arbitrary $n \times n$ matrices in $O(n^c)$ time. [Hint: Consider multiplying two matrices $A$ and $B$. Can you define a  matrix whose square contains $AB$?]
+    \end{enumerate}
+
+    \solution{}
+    
+    
+    \item \textbf{Probability  (30 pts)}
+    \begin{enumerate}
+        \item Random variables $X$ and $Y$ have a joint distribution $p(x, y)$. Prove the following results. You can assume continuous distributions for simplicity.
+        \begin{enumerate}
+            \item $\EE[X] = \EE_Y[\EE_X[X|Y]]$
+            \item $\EE[I[X \in \mathcal{C}]] = P(X \in \mathcal{C})$, where $I[X \in \mathcal{C}]$ is the indicator function\footnote{$I[X\in \mathcal{C}]:=1$ if $X\in \mathcal{C}$ and $0$ otherwise} of an arbitrary set $\mathcal{C}$.
+            \item $\text{var[X]} = \EE_Y[\text{var}_X[X|Y]] + \text{var}_Y[\EE_X[X|Y]]$
+            \item If X and Y are independent, then $\EE[XY] = \EE[X] \EE[Y]$.
+            \item If $X$ and $Y$ take values in $\{0,1\}$ and $\EE[ XY ] = \EE[X] \EE[Y]$, then $X$ and $Y$ are independent.
+        \end{enumerate}
+        \item Show that the approximate randomized counting algorithm described in Lemma 1 of Lecture 2 slides (page 14) is unbiased:
+        \begin{align}
+            \mathbb{E} \tilde n = n\,.
+        \end{align}
+        \item Prove the variance formula in Lemma 2 of Lecture 2 slides (page 38) for Approximate Matrix Multiplication $AB\approx CR$
+        \begin{align}
+        {\bf Var}\left[ (CR)_{ij} \right] = \frac{1}{m} \sum_{k=1}^d \frac{A^2_{ik}B^2_{kj}}{p_k} - \frac{1}{m} (AB)^2_{ij}\,.
+        \end{align}
+        %
+        where $\{p_k\}_{k=1}^d$ are sampling probabilities.
+
+
+    \end{enumerate}
+    \solution{
+    }
+    
+    \item \textbf{Positive (Semi-)Definite Matrices  (15 pts)}\\\\
+    Let $A$ be a real, \emph{symmetric} $d \times d$ matrix. We say $A$ is \textit{positive semi-definite} (PSD) if, for all $\x \in \mathbb{R}^d$, $\x^{\top}A\x \geq 0$. We say $A$ is \textit{positive definite} (PD) if, for all $\x \neq 0$, $\x^{\top}A\x > 0$. We write $A \succeq 0$ when $A$ is PSD, and $A \succ 0$ when A is PD.
+
+    The \textit{spectral theorem} says that every real symmetric matrix $A$ can be expressed $A = U \Lambda U^{\top}$, where $U$ is a $d \times d$ matrix such that $UU^{\top} = U^{\top}U = I$ (called an orthogonal matrix), and $\Lambda = diag(\lambda_1,...,\lambda_d)$. Multiplying on the right by $U$ we see that $AU = U\Lambda$. If we let $u_i$ denote the $i^{th}$ column of $U$, we have $A u_i = \lambda_i u_i$ for each $i$. This expression reveals that the $\lambda_i$ are eigenvalues of $A$, and the corresponding columns $u_i$ are eigenvectors associated to $\lambda_i$.
+    \begin{enumerate}
+        \item  $A$ is PSD iff $\lambda_i \geq 0$ for each $i$.
+        \item $A$ is PD iff $\lambda_i > 0$ for each $i$.
+    \end{enumerate}
+    \textbf{Hint:} Use the following representation
+    \begin{align*}
+    U \Lambda U^T = \sum_{i=1}^d \lambda_i { u_i u_i}^T\,.
+    \end{align*}
+    \solution{
+
+    }
+    \item \textbf{Norms (20 pts)}
+    \begin{enumerate}
+        \item For $p=1,2,\infty$, verify that the functions $\|\cdot\|_p$ are norms. Then, for a vector $x \in \mathbb{R}^n$, show that
+        \begin{align*}
+            \|x\|_{\infty}\leq \| x\|_2\leq \|x\|_1\leq \sqrt{n}\|x\|_2\leq n \|x\|_{\infty}
+        \end{align*}
+        and for each inequlaity, provide an example demonstrating that the inequality can be tight.
+        \item For vectors $x$,$y\in \mathbb{R}^n$, show that $|x^T y|\leq \|x||_2 \|y\|_2$ with equality if and only if $x$ and $y$ are linearly dependent. More generally, show that $x^T y\leq \|x\|_1 \|y\|_{\infty}$. Note that this implies that $\|x\|_2^2 \leq \|x\|_1 \|x\|_{\infty}$; and that these are special cases of H\"older's inequality.
+        \item For $A\in \mathbb{R}^{m\times n}$, show that $\text{Trace}(A^T A)=\sum_{ij}A_{ij}^2$, and show that $\sqrt{\sum_{ij}A_{ij}^2}$ is a norm on $m \times n$ matrices. This is the Frobenius norm, denoted $\| \cdot\|_F$. Show that, in addition to satisfying the definining properties of  a norm, the Frobenius norm is a submultiplicative norm, in that
+        \begin{align*}
+            \|AB\|_F \leq \|A\|_F \|B\|_F
+        \end{align*}
+        whenever the dimensions are such that the product $AB$ is defined.
+        \item Recall the definiton of the spectral norm of an $m\times n $ matrix $A: \|A\|_2= \sqrt{\lambda_{max}(A^T A)}=\sigma_{max}(A)$, where $\lambda_{max}(A^T A)$ is the largest eigenvalue pf $A^T A$ and $\sigma_{max}$ is the largest singular value of $A$. Show that the Frobenius norm and the spectral norm are unitarily invariant: if $U$ and $V$ are unitary (orthogonal in the real case) matrices, then $\|U^T A V\|_{\xi}=\|A\|_{\xi}$, for $\xi=2,F$.
+    \end{enumerate}
+    \solution{
+    }
+    \item \textbf{Approximate Matrix Multiplication (20 pts)}\\\\
+    Here, we will consider the empirical performance of random sampling and random projection algorithms for approximating the product of two matrices. You may use Matlab, or C, or R, or any other software package you prefer to do your implementations. Please be sure to describe what you used in sufficient detail that someone else could reproduce your results. Let $A$ be an $n \times d$ matrix, with $n \gg d$, and consider approximating the product $A^T A$.
+    %as well as the product $U_A^T U_A$, where $U_A$ is the $n \times d$ matrix consisting of the left singular vectors (or, if you prefer, the $Q$ matrix from a QR decomposition) of $A$. 
+    First, generate the matrices A from one of three different classes of distributions introduced below.%; and generate the matrices $U_A$ by first generating $A$ in the following manner and then performing the SVD or a QR decomposition of $A$.
+    \begin{itemize}
+        \item Generate a matrix $A$ from multivariate normal $N(1_d, \Sigma)$, where the (i, j)th element of $\Sigma_{ij} = 2\times 0.5^{|i-j|}$.(Refer to as GA data.)
+        \item Generate a matrix $A$ from multivariate t-distribution with 3 degree of freedom and covariance matrix $\Sigma$ as before. (Refer to as T3 data.)
+        \item  Generate a matrix $A$ from multivariate t-distribution with 1 degree of freedom and covariance matrix $\Sigma$ as before. (Refer to as T1 data.)
+    \end{itemize}
+
+To start, consider matrices of size $n \times d$ equal to $ 500 \times 50$. (So, you should have three matrices, one matrix $A$ generated in each of the above ways.)
+\begin{enumerate}
+    \item For each matrix, approximate the product ($A^T A$) with the random sampling algorithm we discussed in class, i.e., by sampling with respect to a probability distribution that depends on the norm squared of the rows of the input matrix. Plot the probability distribution. Does it look uniform or nonuniform? Plot the performance of the spectral and Frobenius norm error as a function of the number of samples.
+    \item  For each matrix, approximate the product ($A^T A$) with the random sampling algorithm we discussed in class, except that the uniform distribution, rather than the norm-squared distribution, should be used to construct the random sample. Plot the performance of the spectral and Frobenius norm error as a function of the number of samples. For which matrices are the results similar and for which are they different than when the norm-squared distribution is used ?
+    \item Now you will implement the matrix approximation technique on the MNIST dataset for handwritten digit classification. Details about MNIST dataset can be found at \url{http://yann.lecun.com/exdb/mnist/}. We provide the dataset in \textbf{.mat} file so that you can easily import it into Matlab by using \textbf{load('mnist\_matrix.mat')}. To import the dataset in Python you can use:\\
+  \textbf{import scipy.io}\\
+  \textbf{data = scipy.io.loadmat(`mnist\_matrix.mat')} \\
+  In \textbf{.mat} file you will find one matrix, $A \in \R^{60000 \times 784}$. For this matrix, approximate the product ($A^T A$) with the random sampling algorithm we discussed in class, i.e., by sampling with respect to a probability distribution that depends on the norm squared of the rows of the input matrix. Plot the probability distribution. Dos it look uniform or nonuniform? Plot the performance of the spectral and Frobenius norm error as a function of the number of samples. 
+\end{enumerate}
+\solution{}
+
+\end{enumerate}
+
+
+\end{document}
