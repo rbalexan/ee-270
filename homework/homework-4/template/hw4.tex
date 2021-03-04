@@ -1,0 +1,204 @@
+\input{ee270.tex}
+\newtoggle{solution}
+%\togglefalse{solution} %uncomment to hide solutions
+\toggletrue{solution} %uncomment to show solutions
+% \newcommand{\solution}[1]{\iftoggle{solution}{\vspace{1pc} \textbf{SOLUTION:} \\* #1}{}}
+% \newcommand{\solutionspace}[2]{\iftoggle{solution}{\vspace{1pc} \textbf{SOLUTION:} \\* #2}{\vspace*{#1}}}
+
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+
+\newcommand{\myhref}[3][blue]{\href{#2}{\color{#1}{#3}}}%
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+
+\begin{document}
+
+\HomeworkHeader{4}{March 15 (Monday), 11:59 PM}
+
+
+
+Instructions:
+% \NameSunet
+\begin{itemize}
+\item After a genuine attempt to solve the homework problems by yourself, you are free to collaborate with your fellow students to find solutions to the homework problems. Regardless of whether you collaborate with other students, you are required to type up or write your own solutions. Copying homework solutions from another student or from existing solutions is a serious violation of the honor code. Please take advantage of  the professor's and TA's office hours. We are here to help you learn, and it never hurts to ask!
+% \vspace{2mm}
+\item {\bf  The assignments should be submitted via Gradescope including your code attached as pdf.}
+
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{enumerate}
+\item \textbf{Randomized Gauss-Newton Algorithm for Training Neural Networks (25 pts)}\\
+In this problem, you will implement randomized Gauss-Newton (GN) algorithm to train a neural network. We will consider a single layer architecture and a squared loss training objective. This special case is also referred to as a nonlinear least squares problem. Consider a set of training data $\{x_i,y_i\}_{i=1}^n$, where $x_i \in \mathbb{R}^d$ is the $i^{th}$ data sample and $y_i \in \{0,1\}$ is the corresponding label. Then, use the following nonlinear function
+\begin{align*}
+    \sigma(w,x)=\frac{1}{1+e^{-w^Tx}}
+\end{align*}
+to fit the given data labels. In order to estimate $w$, we can minimize the sum of squares as follows 
+\begin{align*}
+    w^*= &\arg \min_{w} \sum_{i=1}^n (\sigma(w^Tx_i)-y_i)^2 \\
+    &=\arg \min_w \|f(w) - y\|_2^2
+\end{align*}
+where $w^*$ denotes the optimal parameter vector, $y$ is the vector containing labels $y_1,...,y_n$, and the vector output function $f(w)$ is defined as
+\begin{align*}
+    f(w):=\sigma(Xw) = \left[\begin{array}{c} \sigma(x_1^Tw)\\ \vdots \\ \sigma(x_n^Tw) \end{array}
+    \right].
+\end{align*} The above problem is \emph{non-convex} unlike the ordinary least squares and logistic regression problems.
+%
+% %%%
+
+
+% {\bf \Large Do we have}
+% {$f(x_i^Tw ) = \sigma(x_i^T w) ?$}
+
+
+% %%%
+
+%
+Download the provided MNIST dataset (\texttt{mnist\_all.mat}), where you will use only the samples belonging to digit 0 (\texttt{train0}) and digit 1(\texttt{train1}). Next, we will apply the Gauss-Newton (GN) heuristic to approximately solve the non-convex optimization roblem. In the GN algorithm, you first need to linearize the nonlinear vector output function $f(w)$.
+%is the vector containing $\{\sigma(x_i^Tw)\}_{i=1}^n$, 
+The first order expansion of $f(w)$ around the current estimate, $w_k$ is given by
+\begin{align}\label{eq:lin}
+    f(w)\approx f(w_k)+J^k(w-w_k)
+\end{align}
+where $J^k \in \mathbb{R}^{n \times d}$ is the Jacobian matrix at the iteration $k$ whose $ij^{th}$ entry is defined as
+\begin{align*}
+    J_{ij}^{k}= \frac{\partial f_i( w)}{\partial w_j} \Bigg \vert_{w=w_k}=\frac{\partial \sigma(x_i^T w)}{\partial w_j} \Bigg \vert_{w=w_k}.
+\end{align*}
+Then, Gauss-Newton algorithm performs the update
+%
+\begin{align}
+    w^{k+1}= 
+    &\arg \min_w \|f(w_k)+J^k(w-w_k) - y\|_2^2\,.
+    \label{eq:GNup}
+\end{align}
+%
+\begin{enumerate}
+    \item Find the Gauss-Newton update $\eqref{eq:GNup}$ explicitly for this problem by deriving the Jacobian. Describe how the sub-problems can be solved. What is the computational complexity per iteration for $n\times d$ data matrices?
+%
+
+One can incorporate a step-size $\mu \in (0,1]$ in the above update as follows.
+%
+    \begin{align}
+    &w^{k+1} = (1-\mu)w^k + \mu d^k \nonumber\\ 
+    & \mbox{where } d^k:=\arg \min_w \|f(w_k)+J^k(w-w_k) - y\|_2^2\,. \label{eq:lssub}
+\end{align}
+This is referred to as damped Gauss-Newton algorithm.
+% we need the least squares problem here
+%
+    \item Implement the damped Gauss Newton algorithm on the MNIST dataset to classify digits $0$ and $1$. Find a reasonable step-size for fast convergence by trial and error. Plot the training error, i.e., $\|\sigma(Xw)-y\|_2^2$, as a function of the iteration index.
+
+    \item You will now apply sampling to reduce computational complexity of the GN algorithm. Apply uniform sampling to the rows of the Least-Squares sub-problem \eqref{eq:lssub} at each iteration. Plot the training error, i.e., $\|\sigma(Xw)-y\|_2^2$, as a function of the iteration index. Repeat this procedure for row norm scores sampling.
+\end{enumerate}
+\solution{
+}
+
+
+\newpage
+\item \textbf{Randomized Kaczmarz Algorithm (25 pts)\\} 
+In this question, you will implement the Randomized Kaczmarz Algorithm \myhref{https://web.stanford.edu/class/ee270/Lecture16.pdf}{(see Lecture 16 slides)} on the YearPredictionMSD dataset, which can be downloaded from \url{https://archive.ics.uci.edu/ml/datasets/YearPredictionMSD}. In this file, there are 463,715 training and 51,630 test samples (songs) with 90 audio features and your goal is to predict the release year of each song using least squares regression. After downloading the file, you can import and partition the data using the following command in Python
+\begin{verbatim}
+import numpy as np
+file_name='YearPredictionMSD.txt'
+file = open(file_name, 'r')
+
+data=[]
+for line in file.readlines():
+    fname = line.rstrip().split(',')
+    data.append(fname)
+    
+data_arr=np.asarray(data).astype('float')
+A=data_arr
+b=(data_arr[:,0]-np.min(data_arr[:,0]))/(np.max(data_arr[:,0])-np.min(data_arr[:,0]))
+\end{verbatim}
+You may also normalize the data matrix as follows
+\begin{verbatim}
+meanA=np.mean(A,axis=0)
+stdA=np.std(A,axis=0)
+A=(A-meanA)/stdA
+\end{verbatim}
+
+\begin{itemize}
+    \item[(a)] Plot the training and test cost vs iteration curves for Randomized Kaczmarz Algorithm (i.e., the one with optimal sampling distribution) and the randomized algorithm with uniform sampling distribution on the same figure. For the uniformly sampled version, you should use an explicit learning rate and tune this parameter by trial and error.
+    \item[(b)] Note that the analysis of the Randomized Kaczmarz Algorithm assumes that the linear system $Ax=b$ is consistent, which is may not be valid in our case. Show that an optimal solution of the least squares problem $\min_x \|Ax-b\|_2^2$ can be found via solving the augmented linear system $\left[ \begin{array}{cc} A & - I \\ 0 & A^T   \end{array} \right] \left[ \begin{array}{c} x \\  y  \end{array} \right] = \left[ \begin{array}{c} b \\  0  \end{array} \right]$. 
+    \item[(c)] Since the augmented linear system in part (b) is consistent, we may apply Randomized Kaczmarz Algorithm. Repeat part (a) using Randomized Kaczmarz algorithm on the augmented linear system.
+    \item[(d)] Repeat part (a) using SGD with diminishing step-sizes (see page 11 of Lecture 16 slides) by tuning the initial step size.
+\end{itemize}
+\solution{
+}
+
+
+
+\newpage
+\item \textbf{ Randomized Low-Rank Approximation and Randomized SVD (25 pts)}\\
+In this problem, you will implement a randomized approach in order to obtain a low-rank approximation for a given data matrix. Assume that you are given a data matrix $A\in \mathbb{R}^{n \times d}$ with $U \Sigma V^T$ as its SVD. The best rank-k approximation for the data matrix is $A_k=U_k \Sigma_k V_k^T=\sum_{i=1}^k \sigma_i u_i v_i^T$. However, since this is computationally expensive, you need to use another approach to reduce the complexity. 
+
+First, you will generate a $5000\times 1000$ data matrix with decaying singular values. To construct such a matrix, you can first generate a random Gaussian matrix with zero mean and identity covariance. Then, compute the SVD of this matrix as $U \Sigma V^T$. Now, replace $\Sigma$ with a diagonal matrix $\hat \Sigma$ with decaying entries, $\hat \Sigma_{ii}={i^{-2}}$. Then, you can construct the data matrix with decaying singular values as $A=U\hat{\Sigma}V^T$.
+
+\begin{enumerate}
+    \item One approach to obtain a rank-k approximation is as follows.
+    \begin{itemize}
+    \item Obtain a random approximation for the data matrix $A$ as $C$ by uniformly sampling $k$ columns and scaling appropriately.
+    \item Verify the approximation by computing the relative error $\|AA^T- CC^T\|_F/\|AA^T\|_F$.
+    \item Compute the randomized rank-k approximation defined as $\tilde{A}_k=C C^{\dagger}A$.
+
+\end{itemize}
+     Plot the approximation error, i.e., $\|A-\tilde{A}_k\|_2^2$, as a function of the rank $k$. Verify the error bound we have in \href{https://web.stanford.edu/class/ee270/Lecture19.pdf}{Lecture 19} slides, i.e., $\|A-\tilde{A}_k\|_2^2\leq \sigma_{k+1}^2+\epsilon \|A\|_2^2$, and find the numerical value of $\epsilon$. Repeat this procedure for uniform sampling, column norm score sampling, Gaussian sketch, $+1/-1$ i.i.d. sketch, and randomized Hadamard (FJLT) sketch.
+\item Now we use the low rank approximation in part (a) to produce an approximate Singular Value Decomposition of $A$. The Randomized SVD algorithm is as follows.
+\begin{itemize}
+    \item Generate a sketching matrix $S$.
+    \item Compute $C=AS$
+    %\item Approximation: $C C^{\dagger}=(AS)(AS)^{\dagger}A \approx A$
+    \item Calculate QR decomposition: $C=AS=QR$
+    \item Calculate the SVD of $Q^T A$, i.e., $Q^T A= U \Sigma V^T$
+    \item Approximate SVD of $A$ is given by $A \approx (QU)\Sigma V^T$.
+    \item Note that the randomized rank-k approximation $\tilde A_k:=(QU)\Sigma V^T= QQ^T A = CC^\dagger A$ as in part (a)
+\end{itemize}
+  Plot the approximation error, i.e., $\|A- (QU)\Sigma V^T\|_2^2$, as a function of the rank $k$. To compare with the exact SVD, plot $\|A-A_k\|_2^2$, where $A_k$ is the best rank $k$ approximation of $A$ using the SVD of $A$. Repeat the whole procedure for uniform sampling, column norm score sampling, Gaussian sketch, $+1/-1$ i.i.d. sketch, and randomized Hadamard (FJLT) sketch.
+\end{enumerate}
+\solution{
+}
+
+
+
+\newpage
+\item \textbf{CUR decomposition (25 pts)\\} CUR decomposition is a dimensionality reduction and low-rank approximation method in a similar spirit to Singular Value Decomposition (SVD). One particular difficulty of SVD is that the left and right singular vectors are difficult to interpret since they lack any direct meaning in terms of the original data. On the other hand, CUR decomposition is interpretable since it involves small subsets of the rows/columns of the original data.
+
+
+Suppose that $A$ is an m x n matrix of approximate rank k, and that we have two column/row subsampled approximations 
+\begin{align}
+    C&:=A(:,J_S)\\
+    R&:=A(I_S,:)
+\end{align}
+%
+where $I_S,J_S$ are appropriate subsets.
+Then we can approximate the matrix $A$ via
+\begin{align}
+    A \approx CC^\dagger A R^\dagger R = C U R\,,
+\end{align}
+where $U:=C^\dagger A R^\dagger$ and the superscript $\dagger$ denotes the pseudoinverse operation. We choose set of columns $C$ and a set of rows $R$,
+which play the role of $U$ and $V$ in  SVD. We may pick any number of rows and columns. Therefore, this factorization provides an interpretable alternative to the Singular Value Decomposition. Furthermore, CUR has computational advantages especially for sparse matrices. Particularly, since CUR directly select random rows and columns $C$ and $R$ are sparse for a sparse matrix $A$, whereas $U$ and $V$ in SVD can still be dense matrices.
+
+ You will be using the movie ratings dataset from the \url{https://movielens.org/} website provided at \url{https://grouplens.org/datasets/movielens/100k/}. The dataset contains 100,000 ratings from 943 users on
+1682 movies. The ’usermovies’ matrix of dimension 943 x 1682 is very sparse. 
+
+\begin{itemize}
+    \item[(a)] For $m=1,...,10$, apply uniform row/column subsampling with sample size $m$ to obtain $C$ and $R$ matrices of rank $m$ and solve $U$ to obtain the CUR decomposition. Plot the approximation error in Frobenius norm and spectral norm as a function of $m$.
+    \item[(b)] Repeat part (a) using $\ell_2$ row/column norm scores for row/column subsampling respectively.
+    \item[(c)] Repeat part (a) using leverage scores of $A$ and $A^T$ for row/column subsampling respectively.
+\end{itemize}
+    
+\solution{
+}
+
+
+
+
+\end{enumerate}
+
+\end{document}

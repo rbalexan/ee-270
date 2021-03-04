@@ -1,0 +1,155 @@
+% Some helpful commands for making EE269 handouts
+
+% The document class options
+\documentclass[11pt,oneside,notitlepage]{article}
+
+% Packages
+\usepackage{verbatim}
+\usepackage{epsfig}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hhline}
+\usepackage{etoolbox}
+\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{wrapfig}
+
+% Preamble (style parameters, etc)
+\pagestyle{empty}
+
+\setlength{\paperwidth}{8.5in}
+\setlength{\paperheight}{11in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9.5in}
+
+\setlength{\topmargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\oddsidemargin}{0in}
+
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+% more useful abbreviations
+% -------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\btheta}{\mbox{\boldmath $\theta$}}
+\newcommand{\bgamma}{\mbox{\boldmath $\gamma$}}
+\newcommand{\bbeta}{\mbox{\boldmath  $\beta$}}
+\newcommand{\balpha}{\mbox{\boldmath $\alpha$}}
+\newcommand{\bDelta}{\mbox{\boldmath $\Delta$}}
+\newcommand{\bdelta}{\mbox{\boldmath $\delta$}}
+\newcommand{\bPsi}{\mbox{\boldmath   $\Psi$}}
+\newcommand{\bphi}{\mbox{\boldmath   $\phi$}}
+\newcommand{\bpi}{\mbox{\boldmath    $\pi$}}
+\newcommand{\btau}{\mbox{\boldmath   $\tau$}}
+\newcommand{\blambda}{\mbox{\boldmath $\lambda$}}
+\newcommand{\bTheta}{\mbox{\boldmath $\Theta$}}
+\newcommand{\bone}{\mbox{\boldmath   $1$}}
+\newcommand{\Loewner}[0]{\preceq}
+\newcommand{\Hessmat}{{\cal H}}
+\newcommand{\Bmat}{{\bf B}}
+\newcommand{\Amat}{{\bf A}}
+\newcommand{\bx}{{\bf x}}
+\newcommand{\gradv}{{\bf g}}
+\newcommand{\cG}{{\cal G}}
+\newcommand{\cS}{{\cal S}}
+\newcommand{\cT}{{\cal T}}
+\newcommand{\trace}{\mbox{\rm trace}}
+\newcommand{\tv}{\tilde{v}}
+\newcommand{\gammaC}{\gamma_C}
+
+\def\noprint#1{}
+\def\swcomment#1{{\em [SW: #1]}}
+\def\dmcomment#1{{\em [DM: #1]}}
+\def\swresolved#1{}
+\def\dmresolved#1{}
+\def\sparsa{SpaRSA\ }
+\def\bi{\begin{itemize}}
+\def\ei{\end{itemize}}
+\def\beq{\begin{equation}}
+\def\eeq{\end{equation}}
+\def\eqnok#1{(\ref{#1})}
+
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\newcommand{\solution}[1]{
+\iftoggle{solution}{
+\vspace{1pc}   
+\textcolor{blue}{\textbf{SOLUTION:}}\\ #1  
+}{}
+}
+
+\definecolor{lightgray}{gray}{0.5}
+
+
+\def\ie{{\em i.e.,~}}
+\def\eg{{\em e.g.,~}}
+\def\cf{{\em cf.,~}}
+\def\ea{{\em et al.~}}
+% Command to display the header
+\newcommand{\HandoutHeader}[1]{
+\noindent{\Large{\textbf{Large Scale Matrix Computation, Optimization and Learning (EE270)}} \hfill Handout {#1}} \rule[1.0mm]{6.5in}{1mm} {\Large Fall 2019}
+\newline\newline }
+
+\newcommand{\HomeworkHeader}[2]{
+\noindent{\newline\newline\newline\large{\textbf{Large Scale Matrix Computation, Optimization and Learning (EE270)}} \hfill HW \#{#1}} \rule[1.0mm]{6.5in}{1mm}
+\\
+{\Large Winter 2021} \hfill {\large Due: \textbf{#2}}\newline\newline }
+
+\newcommand{\HomeworkSolutionsHeader}[2]{
+\noindent{\newline\newline\newline\Large{\textbf{Large Scale Matrix Computation, Optimization and Learning (EE270)}}  HW \#{#1} Solution} \rule[1.0mm]{6.5in}{1mm} {\Large Winter 2021}\newline\newline }
+
+\newcommand{\NameSunet}{
+{\bf Name \underline{\hspace{5cm}} }  \hspace{2cm}   {\bf SUNet ID \underline{\hspace{5cm}} }
+\vspace{0cm}
+}
+
+%\newcommand{\HomeworkSolutionsHeader}[1]{
+%{\Large{\bfseries Homework \#{#1} solutions}}
+%}
+
+\newcommand{\MidtermHeader}[1]{
+\noindent{\Large{\bfseries Large Scale Matrix Computation, Optimization and Learning (EE270)}}\newline
+\rule[1.0mm]{6.5in}{1mm}
+{\Large (Winter 2020)} \newline\newline\newline
+{\Large{\bfseries Midterm}} \hfill {\large Date: \textbf{#1}}\newline\newline\newline
+}
+
+\newcommand{\MidtermSolutionsHeader}[1]{
+\newline
+{\Large{\bfseries Midterm Solutions}} \hfill {\large Date: \textbf{#1}}\newline\newline\newline
+}
+
